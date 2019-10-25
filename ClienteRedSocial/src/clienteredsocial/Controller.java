@@ -7,32 +7,17 @@ package clienteredsocial;
 
 import InterfazGrafica.redSocialCelebrity;
 import InterfazGrafica.redSocialFollower;
-import api.AbstractServer;
-import api.SocketMessage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  *
  * @author kduran
  */
-public class Controller extends AbstractServer{
-    
+public class Controller {
     public static final ArrayList<Celebridad> CELEBRITIES = new ArrayList<>();
     public static final String RECORD_LIKES = "RecordLikes";
     public static final String RECORD_SEGUIDORES = "RecordSeguidores";
     public static final ArrayList<Seguidor> FALLOWERS = new ArrayList<>();
-    public static final String LIKE = "like";
-    public static final String DIS_LIKE = "dislike";
-    public static final String FOLLOW = "follow";
-    public static final String POST = "post";
-    public static final String LOGIN = "login";
-    public static final String SING_IN_CELEBRITY = "singCelebrity";
-    public static final String SING_IN_FOLLOWER = "singFollower";
-    public static final String DARSE_BAJA = "baja";
-
-    public Controller() throws IOException {
-    }
     
     public static Celebridad getCelebridad(int id){
         for (Celebridad celebridad : CELEBRITIES) {
@@ -60,16 +45,19 @@ public class Controller extends AbstractServer{
         
     }
     
-    public static void seguir(Seguidor follower, Celebridad celebrity){
-        follower.seguir(celebrity);
+    public static void seguir(int idSeguidor, Celebridad celebrity){
+        Seguidor seguir = getFans(idSeguidor);
+        seguir.seguir(celebrity);
     }
     
-    public static void postMessage(Celebridad celebridad, String message){
+    public static void postMessage(int idCelebridad, String message){
+        Celebridad celebridad = getCelebridad(idCelebridad);
         celebridad.addPost(message);
     }
 
-    public static void dislike(Seguidor follower, Mensaje message){
-        follower.darDisLike(message);
+    public static void dislike(int idSeguidor, int idMessage, int idCelebridad){
+        Seguidor seguidor = getFans(idSeguidor);
+        seguidor.darDisLike(idCelebridad, idMessage);
     }
     
     public static boolean login(String user, int id){
@@ -135,67 +123,5 @@ public class Controller extends AbstractServer{
     
     public static void darseBaja(Celebridad celebridad){
         celebridad.setState(false);
-    }
-    
-    public static void like(Seguidor follower, Mensaje message){
-        follower.darLike(message);
-    }
-    
-    @Override
-    public void evaluete(SocketMessage socketMessage) {
-        switch (socketMessage.name) {
-            case LIKE:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                Seguidor follower = (Seguidor) socketMessage.observer;
-                like(follower, requestSocial.message);
-                break;
-            }
-            case DIS_LIKE:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                Seguidor follower = (Seguidor) socketMessage.observer;
-                dislike(follower, requestSocial.message);
-                break;
-            }
-            case FOLLOW:
-            {
-                Seguidor follower = (Seguidor) socketMessage.observer;
-                Celebridad celebrity = (Celebridad) socketMessage.observable;
-                seguir(follower, celebrity);
-                break;
-            }
-            case DARSE_BAJA:
-            {
-                Celebridad celebrity = (Celebridad) socketMessage.observable;
-                darseBaja(celebrity);
-                break;
-            }
-            case POST:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                Celebridad celebrity = (Celebridad) socketMessage.observable;
-                postMessage(celebrity, requestSocial.post);
-                break;
-            }
-            case LOGIN:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                login(requestSocial.userName, requestSocial.id);
-                break;
-            }
-            case SING_IN_CELEBRITY:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                singInCelebrity(requestSocial.userName, requestSocial.id);
-                break;
-            }
-            case SING_IN_FOLLOWER:
-            {
-                RequestSocial  requestSocial = (RequestSocial) socketMessage.request;
-                singInFollower(requestSocial.userName, requestSocial.id);
-                break;
-            }
-        }    
     }
 }

@@ -19,16 +19,21 @@ public class Conexion
     protected Socket cs; //Socket del cliente
     protected DataOutputStream salidaServidor, salidaCliente; //Flujo de datos de salida
 
-    public Conexion(String tipo) throws IOException //Constructor
+    public Conexion(String tipo) //Constructor
     {
-        if(tipo.equalsIgnoreCase("server"))
-        {
-            ss = new ServerSocket(PUERTO);//Se crea el socket para el servidor en puerto 1234
-            cs = new Socket(); //Socket para el cliente
+        try{
+            if(tipo.equalsIgnoreCase("server"))
+            {
+                ss = new ServerSocket(PUERTO);//Se crea el socket para el servidor en puerto 1234
+                cs = new Socket(); //Socket para el cliente
+            }
+            else
+            {
+                cs = new Socket(HOST, PUERTO); //Socket para el cliente en localhost en puerto 1234
+            }
+        }catch(Exception e){
+            System.out.println("Error: connection failed");
         }
-        else
-        {
-            cs = new Socket(HOST, PUERTO); //Socket para el cliente en localhost en puerto 1234
-        }
+        
     }
 }

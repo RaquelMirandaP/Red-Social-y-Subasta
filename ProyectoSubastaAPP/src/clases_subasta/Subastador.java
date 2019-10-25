@@ -7,7 +7,7 @@ package clases_subasta;
 
 import api.IObserver;
 
-public class Subastador {
+public class Subastador implements api.IObservable{
     
     public Subasta subastaEnCurso;
     public Producto productoSubastado;
@@ -21,9 +21,11 @@ public class Subastador {
     }
     
     public void comenzarSubasta(Producto producto, 
-            String nombreSubasta, String descripcionSubasta, String estadoSubasta, String fechaInicioSubasta, String fechaFinSubasta){
+            String nombreSubasta, String descripcionSubasta, String estadoSubasta, 
+            String fechaInicioSubasta, String fechaFinSubasta){
     
-        Subasta subasta = new Subasta(producto, nombreSubasta, descripcionSubasta, estadoSubasta, fechaInicioSubasta, fechaFinSubasta);
+        Subasta subasta = new Subasta(producto, nombreSubasta, descripcionSubasta,
+                estadoSubasta, fechaInicioSubasta, fechaFinSubasta);
         
         this.subastaEnCurso = subasta;
     }
@@ -47,7 +49,9 @@ public class Subastador {
     }
     
     
-
+   public void enviarMensaje(Mensaje mensaje){
+       controller.getOferente(mensaje.getId());
+   }
     public Subasta getSubastaEnCurso() {
         return subastaEnCurso;
     }
@@ -70,6 +74,22 @@ public class Subastador {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+ 
+    @Override
+    public void addObserver(IObserver observer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAllObservers(String command, Object source) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

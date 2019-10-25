@@ -11,13 +11,16 @@ public class Oferente implements IObserver{
 
     public int idOferente;
     public String nombre;
+   
     
     public Oferente (int idOferente, String nombre){ 
         
         this.idOferente = idOferente;
         this.nombre = nombre;
     }
-    
+    public void recibirMensaje(String mensaje){
+        System.out.println(" "+ mensaje);
+    }
     @Override
     public void notify(String s, Object o) {
         System.out.println("Oferente: " + this.nombre + " la apuesta ha sido aumentada"); // ACCION A REALIZAR LUEGO DE QUE SE AUMENTA LA SUBASTA
@@ -39,6 +42,10 @@ public class Oferente implements IObserver{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public void ofertar(Mensaje mensaje){
+       Subasta subasta = controller.getSubasta(mensaje.getSubasta().getNombre());
+       subasta.listaOferentes_Observadores.add((IObserver) mensaje);
     }
 
     @Override

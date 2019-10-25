@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Subasta extends AbstractServer {
 
-    private final ArrayList<IObserver> listaOferentes_Observadores;
+    public final ArrayList<IObserver> listaOferentes_Observadores;
     
     public Producto productoSubasta;
     
@@ -22,8 +22,9 @@ public class Subasta extends AbstractServer {
     public String fechaInicio;
     public String fechaFin;
     
-    
-    public Subasta(Producto productoSubasta, String nombre, String descripcion, String estado, String fechaInicio, String fechaFin){
+   
+    public Subasta(Producto productoSubasta, String nombre, String descripcion, 
+            String estado, String fechaInicio, String fechaFin){
         
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -39,7 +40,7 @@ public class Subasta extends AbstractServer {
         
         this.productoSubasta.setPrecioFinal(nuevaOferta);
         
-//        this.notifyAllObservers(nombre, nombre);
+//      this.notifyAllObservers(nombre, nombre);
     }
     
     public String getNombre() {
@@ -65,7 +66,7 @@ public class Subasta extends AbstractServer {
     public void setEstado(String estado) {
         this.estado = estado;
     } 
-
+    
     @Override
     public String toString() {
         
@@ -83,8 +84,22 @@ public class Subasta extends AbstractServer {
                 ",\n estado=" + estado + "\n}";
     }
 
+    public Producto getProductoSubasta() {
+        return productoSubasta;
+    }
+
+    public void setProductoSubasta(Producto productoSubasta) {
+        this.productoSubasta = productoSubasta;
+    }
+    
+   
+
     @Override
     public void evaluete(SocketMessage socketMessage) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void addObserver(IObserver oferente) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

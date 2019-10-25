@@ -39,13 +39,7 @@ public class Seguidor implements IObserver{
     }
     
     public ArrayList<Celebridad> getCelebrities(){
-        ArrayList<Celebridad> celebridades = new ArrayList<>();
-        for (Celebridad celebridade : this.celebridades) {
-            if (celebridade.isState()) {
-                celebridades.add(celebridade);
-            }
-        }
-        return celebridades;
+        return this.celebridades;
     }
     
     @Override
@@ -66,12 +60,11 @@ public class Seguidor implements IObserver{
     public void seguir(Celebridad celebrity){
         celebrity.addFan(this);
         celebridades.add(celebrity);
-        celebridades.
     }
     
-    public void darDisLike(Mensaje message){
-        Celebridad celebridad = Controller.getCelebridad(message.getId());
-        celebridad.dislike(message);
+    public void darDisLike(int idCelebridad, int idMensaje){
+        Celebridad celebridad = Controller.getCelebridad(id);
+        celebridad.getPostId(idMensaje).setDislikes();
     }
     
     public void darLike(Mensaje message){
